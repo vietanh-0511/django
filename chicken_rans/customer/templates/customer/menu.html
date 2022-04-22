@@ -1,0 +1,9 @@
+<!-- menu -->
+<div class="menu shadow margin-10">
+    <ul class="margin-10">
+        <li class="item active"><a href="test">Category</a></li>
+        {% for item in category %}
+        <li class="item"><a href="{% url 'category' item.id %}">{{item.name_category}}</a></li>
+        {% endfor %}
+    </ul>
+</div>

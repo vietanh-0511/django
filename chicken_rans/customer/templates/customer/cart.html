@@ -1,0 +1,70 @@
+{% extends 'customer/base.html' %} {% block main %}
+<div class="container">
+    <div class="heading">
+        <h1>
+            <span class="shopper">s</span> Shopping Cart
+        </h1>
+
+        <a href="{% url 'index' %}" class="visibility-cart transition is-open">X</a>
+    </div>
+
+    <div class="cart transition is-open">
+
+        <div class="table">
+
+            <div class="layout-inline row th">
+                <div class="col col-pro">Product</div>
+                <div class="col col-price align-center">Price</div>
+                <div class="col col-qty align-center">QTY</div>
+                <div class="col">Total</div>
+                <div class="col"></div>
+            </div>
+            {% for item in order_detail %}
+            <div class="layout-inline row">
+
+                <div class="col col-pro layout-inline">
+                    <div class="product-image"><img src="{{item.product.image.url}}" alt="{{item.image}}"></div>
+                    <p>{{item.product.name_product}}</p>
+                </div>
+
+                <div class="col col-price col-numeric align-center ">
+                    <p>{{item.price}}</p>
+                </div>
+
+                <div class="col col-qty layout-inline">
+                    <form action="{% url 'update_qty' item.product.id %}" method="post">
+                        {% csrf_token %}
+                        <!-- <a href="" class="qty qty-minus">-</a>
+                            <a href="" class="qty qty-plus">+</a> -->
+                        <input style="width: 40%;" type="number" name="quantity" value="{{item.quantity}}" min="1" max="30" />
+                        <button style="width: fit-content;" type="submit" class="btn">Update qty</button>
+                    </form>
+
+                </div>
+
+                <div class="col col-total col-numeric">
+                    <p>{{item.get_price}}</p>
+                </div>
+
+                <div class="col">
+                    <a href="{% url 'remove' item.product.id %}">
+                        <i class="fas fa-arrow-left">remove</i>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="layout-inline row th ">
+                <div class="col col-pro ">Total</div>
+                <div class="col col-price align-center "></div>
+                <div class="col col-qty align-center "></div>
+                <div class="col ">{{total}}</div>
+            </div>
+        </div>
+
+        <a href="{% url 'checkout' %} " class="btn btn-update " style="width: 100%; ">Order</a>
+
+    </div>
+</div>
+
+{% endblock main %}
